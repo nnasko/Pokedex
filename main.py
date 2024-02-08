@@ -12,9 +12,9 @@ def set_style():
     style.theme_use('clam')
 
     # Colors
-    bgColor = "#282c34"  # Dark grey background
-    inputBg = "#383e4a"  # Slightly lighter grey for inputs
-    btnBg = "#4b5263"  # Button background
+    bgColor = "#790909"  # Dark red background
+    inputBg = "#ec0d0d"  # Slightly lighter red for inputs
+    btnBg = "#6a1010"  # Button background
     btnFg = "#ffffff"  # Button text color
     txtFg = "#ffffff"  # Text color
 
@@ -42,8 +42,8 @@ def open_registration_page():
     registration_window = tk.Tk()
     registration_window.title("Registration")
     registration_window.resizable(0,0)
-    registration_window.geometry("500x300")
-    registration_window.configure(bg="#282c34")
+    registration_window.geometry("400x300")
+    registration_window.configure(bg="#790909")
 
     set_style()  # Apply style to the register page
 
@@ -145,7 +145,7 @@ def open_user_dashboard():
     dashboard.title("User Dashboard")
     dashboard.resizable(0,0)
     dashboard.geometry("400x300")
-    dashboard.configure(bg="#282c34")
+    dashboard.configure(bg="#790909")
 
     set_style()  # Apply the style
 
@@ -229,7 +229,7 @@ def main_login_window():
     root.resizable(0,0)
     root.title("Pokedex")
     root.geometry("500x300")
-    root.configure(bg="#282c34")
+    root.configure(bg="#790909")
 
     set_style()  # Apply style to the login window
 
