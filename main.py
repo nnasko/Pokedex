@@ -41,10 +41,11 @@ def fetch_pokemon_data(pokemon):
 def open_registration_page():
     registration_window = tk.Tk()
     registration_window.title("Registration")
+    registration_window.resizable(0,0)
     registration_window.geometry("500x300")
     registration_window.configure(bg="#282c34")
 
-    set_style()  # Apply styled theme to the registration window
+    set_style()  # Apply style to the register page
 
     registration_frame = ttk.Frame(registration_window)
     registration_frame.place(relx=0.5, rely=0.5, anchor='center')
@@ -110,7 +111,7 @@ def display_pokemon_data():
         pokemon_name.config(text=data['name'].title())
         pokemon_type.config(text=', '.join([t['type']['name'].title() for t in data['types']]))
 
-        # Fetch and display the sprite
+        # Fetch and display the pokemon
         sprite_url = data['sprites']['front_default']
         response = requests.get(sprite_url)
         image_bytes = io.BytesIO(response.content)
@@ -118,7 +119,7 @@ def display_pokemon_data():
         tk_image = ImageTk.PhotoImage(pil_image)
 
         pokemon_sprite.config(image=tk_image)
-        pokemon_sprite.image = tk_image  # Keep a reference
+        pokemon_sprite.image = tk_image
 
 global logged_in_user
 logged_in_user = ""
@@ -142,12 +143,13 @@ def raise_frame(frame):
 def open_user_dashboard():
     dashboard = tk.Tk()
     dashboard.title("User Dashboard")
+    dashboard.resizable(0,0)
     dashboard.geometry("400x300")
     dashboard.configure(bg="#282c34")
 
-    set_style()  # Apply the styled theme
+    set_style()  # Apply the style
 
-    # Create Frames with themed background
+    # Create different menus
     home_frame = ttk.Frame(dashboard)
     party_frame = ttk.Frame(dashboard)
     search_frame = ttk.Frame(dashboard)
@@ -157,9 +159,7 @@ def open_user_dashboard():
         dashboard.grid_columnconfigure(0, weight=1)
         dashboard.grid_rowconfigure(0, weight=1)
 
-    user_data = fetch_user_data()  # No need to pass a username, fetch based on logged_in_user
-
-    print("User Data:", user_data)  # Add this debugging statement
+    user_data = fetch_user_data()
 
     if user_data:
         username_label = ttk.Label(home_frame, text=f"Welcome, {user_data[0]}!")
@@ -205,7 +205,6 @@ def open_user_dashboard():
 
 def login():
     global logged_in_user
-    # This part remains largely unchanged, apply
     username = username_entry.get()
     password = password_entry.get()
 
@@ -223,17 +222,18 @@ def login():
     
     conn.close()
 
-# Create the main window with enhanced styling
+# Create the main window
 def main_login_window():
     global root, username_entry, password_entry
     root = tk.Tk()
+    root.resizable(0,0)
     root.title("Pokedex")
     root.geometry("500x300")
     root.configure(bg="#282c34")
 
-    set_style()  # Apply styled theme to the login window
+    set_style()  # Apply style to the login window
 
-    # Centering the Login Frame
+    # Centering the Login Page
     login_frame = ttk.Frame(root)
     login_frame.place(relx=0.5, rely=0.5, anchor='center')
 
