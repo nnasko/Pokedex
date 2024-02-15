@@ -138,6 +138,7 @@ def setup_database():
     conn.commit()
     conn.close()
 
+
 def raise_frame(frame):
     frame.tkraise()
 
@@ -169,6 +170,9 @@ def open_user_dashboard():
         account_age = get_account_age(user_data[1])
         age_label = ttk.Label(home_frame, text=f"Account Age: {account_age} days")
         age_label.place(x=70, y=200)
+
+        delete_button = ttk.Button(home_frame, text="DELETE ACCOUNT", command=delete_account)
+        delete_button.pack(pady=5)
 
     ttk.Label(party_frame, text="Welcome to the Party Menu!").pack(pady=20)
     
@@ -218,6 +222,15 @@ def login():
         messagebox.showerror("Login Info", "Invalid Credentials")
     
     conn.close()
+
+def delete_account():
+    username = logged_in_user
+    conn = sqlite3.connect('user_data.db')
+    cursor = conn.cursor()
+    delete = f"DELETE FROM users WHERE username LIKE '{username}'"
+    cursor.execute(delete)
+    exit() 
+
 
 # Create the main window
 def main_login_window():
