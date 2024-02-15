@@ -7,6 +7,8 @@ from PIL import Image, ImageTk
 import requests
 from datetime import datetime
 
+newuser = -1
+
 def set_style():
     style = ttk.Style()
     style.theme_use('alt')
@@ -21,7 +23,7 @@ def set_style():
 
     # Button style
     style.configure('TButton', background=btnBg, foreground=btnFg, font=('Arial', 10, 'bold'), borderwidth=1)
-    style.map('TButton', background=[('active', btnBg)], foreground=[('active', btnFg)], font='helvetica 24')
+    style.map('TButton', background=[('active', btnBg)], foreground=[('active', btnFg)], font='helvetica 14')
 
     # Label style
     style.configure('TLabel', background=bgColor, foreground=txtFg, font=('Arial bold', 14))
@@ -43,8 +45,6 @@ def open_registration_page():
     registration_window = tk.Tk()
     registration_window.title("Registration")
     registration_window.resizable(0,0)
-    icon = ImageTk.PhotoImage(file = "pokeball.ico")
-    registration_window.iconphoto(False, icon)
     registration_window.geometry("400x350")
     registration_window.configure(bg="#790909")
 
@@ -140,12 +140,27 @@ def setup_database():
     conn.commit()
     conn.close()
 
+def change_username():
+    global changeuser_entry
+    newuser = changeuser_entry.get()
+    print(newuser)
+    olduser = logged_in_user
+    conn = sqlite3.connect('user_data.db')
+    cursor = conn.cursor()
+    exec = f"UPDATE users SET username='{newuser}' WHERE username='{olduser}'"
+    print(exec)
+    cursor.execute(exec)
+    conn.commit()
+    conn.close()
+    exit()
+
 
 def raise_frame(frame):
     frame.tkraise()
 
 def open_user_dashboard():
     dashboard = tk.Tk()
+    global changeuser_entry
     dashboard.title("User Dashboard")
     dashboard.resizable(0,0)
     icon = ImageTk.PhotoImage(file = "pokeball.ico")
@@ -170,18 +185,27 @@ def open_user_dashboard():
 
     if user_data:
         img = ImageTk.PhotoImage(Image.open('ash.png'))
-        panel = tk.Label(home_frame, image = img)
+        panel = tk.Label(home_frame, image = img, highlightbackground="black", highlightthickness=2)
         panel.place(x=20, y=20)
 
-        username_label = ttk.Label(home_frame, text=f"WELCOME, {user_data[0]}!")
+        username_label = ttk.Label(home_frame, text=f"WELCOME, {user_data[0]}!", font="helvetica 16 bold")
         username_label.place(x=220,y=20)
 
-        account_age = get_account_age(user_data[1])
-        age_label = ttk.Label(home_frame, text=f"Account Age: {account_age} days")
-        age_label.place(x=10, y=180)
+        changeuser_label = ttk.Label(home_frame, text="Change Username:", font="helvetica 10 normal")
+        changeuser_label.place(x=220 ,y=60)
 
-        delete_button = ttk.Button(home_frame, text="DELETE ACCOUNT", command=delete_account, padding=5)
-        delete_button.place(x=10, y=240)
+        changeuser_entry = ttk.Entry(home_frame)
+        changeuser_entry.place(x=220 ,y=85)
+
+        changeuser_button = tk.Button(home_frame, text="CHANGE", height=1, width=10, background="#6A1010", foreground="#ffffff", command=change_username)
+        changeuser_button.place(x=360, y=85)
+
+        account_age = get_account_age(user_data[1])
+        age_label = ttk.Label(home_frame, text=f"Account Age: {account_age} days", font="helvetica 12 roman")
+        age_label.place(x=15, y=170)
+
+        delete_button = ttk.Button(home_frame, text="DELETE ACCOUNT", command=delete_account, padding=8)
+        delete_button.place(x=10, y=200)
 
     ttk.Label(party_frame, text="Welcome to the Party Menu!").pack(pady=20)
     
@@ -239,6 +263,7 @@ def delete_account():
     delete = f"DELETE FROM users WHERE username LIKE '{username}'"
     cursor.execute(delete)
     conn.commit()
+    conn.close()
     exit() 
 
 
@@ -279,3 +304,4 @@ def main_login_window():
 
 if __name__ == "__main__":
     main_login_window()
+    setup_database()
