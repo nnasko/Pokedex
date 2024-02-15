@@ -229,6 +229,7 @@ def delete_account():
     cursor = conn.cursor()
     delete = f"DELETE FROM users WHERE username LIKE '{username}'"
     cursor.execute(delete)
+    conn.commit()
     exit() 
 
 
