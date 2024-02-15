@@ -9,24 +9,25 @@ from datetime import datetime
 
 def set_style():
     style = ttk.Style()
-    style.theme_use('clam')
+    style.theme_use('alt')
 
     # Colors
     bgColor = "#790909"  # Dark red background
-    inputBg = "#ec0d0d"  # Slightly lighter red for inputs
-    btnBg = "#6a1010"  # Button background
+    inputBg = "#ffffff"  # White Background for inputs
+    inputFg = '#000000'
+    btnBg = "#ec0d0d"  # Button background
     btnFg = "#ffffff"  # Button text color
     txtFg = "#ffffff"  # Text color
 
     # Button style
     style.configure('TButton', background=btnBg, foreground=btnFg, font=('Arial', 10, 'bold'), borderwidth=1)
-    style.map('TButton', background=[('active', btnBg)], foreground=[('active', btnFg)])
+    style.map('TButton', background=[('active', btnBg)], foreground=[('active', btnFg)], font='helvetica 24')
 
     # Label style
-    style.configure('TLabel', background=bgColor, foreground=txtFg, font=('Arial', 10))
+    style.configure('TLabel', background=bgColor, foreground=txtFg, font=('Arial bold', 14))
 
     # Entry style
-    style.configure('TEntry', background=inputBg, foreground=txtFg, fieldbackground=inputBg, borderwidth=1)
+    style.configure('TEntry', background=inputBg, foreground=inputFg, fieldbackground=inputBg, borderwidth=1)
 
 def fetch_pokemon_data(pokemon):
     url = f"https://pokeapi.co/api/v2/pokemon/{pokemon.lower()}"
@@ -42,7 +43,7 @@ def open_registration_page():
     registration_window = tk.Tk()
     registration_window.title("Registration")
     registration_window.resizable(0,0)
-    registration_window.geometry("400x300")
+    registration_window.geometry("400x350")
     registration_window.configure(bg="#790909")
 
     set_style()  # Apply style to the register page
@@ -144,7 +145,7 @@ def open_user_dashboard():
     dashboard = tk.Tk()
     dashboard.title("User Dashboard")
     dashboard.resizable(0,0)
-    dashboard.geometry("400x300")
+    dashboard.geometry("450x350")
     dashboard.configure(bg="#790909")
 
     set_style()  # Apply the style
@@ -162,16 +163,12 @@ def open_user_dashboard():
     user_data = fetch_user_data()
 
     if user_data:
-        username_label = ttk.Label(home_frame, text=f"Welcome, {user_data[0]}!")
-        username_label.pack(pady=10)
+        username_label = ttk.Label(home_frame, text=f"WELCOME, {user_data[0]}!")
+        username_label.place(x=140,y=20)
 
         account_age = get_account_age(user_data[1])
         age_label = ttk.Label(home_frame, text=f"Account Age: {account_age} days")
-        age_label.pack(pady=5)
-
-        pokemon_count_label = ttk.Label(home_frame, text="Number of Pokémon in Storage: 0")
-        pokemon_count_label.pack(pady=5)
-
+        age_label.place(x=70, y=200)
 
     ttk.Label(party_frame, text="Welcome to the Party Menu!").pack(pady=20)
     
@@ -228,7 +225,7 @@ def main_login_window():
     root = tk.Tk()
     root.resizable(0,0)
     root.title("Pokedex")
-    root.geometry("500x300")
+    root.geometry("450x350")
     root.configure(bg="#790909")
 
     set_style()  # Apply style to the login window
