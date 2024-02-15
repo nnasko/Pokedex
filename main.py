@@ -14,8 +14,8 @@ def set_style():
     # Colors
     bgColor = "#790909"  # Dark red background
     inputBg = "#ffffff"  # White Background for inputs
-    inputFg = '#000000'
-    btnBg = "#ec0d0d"  # Button background
+    inputFg = '#000000' # White Foreground  
+    btnBg = "#6A1010"  # Button background
     btnFg = "#ffffff"  # Button text color
     txtFg = "#ffffff"  # Text color
 
@@ -43,6 +43,8 @@ def open_registration_page():
     registration_window = tk.Tk()
     registration_window.title("Registration")
     registration_window.resizable(0,0)
+    icon = ImageTk.PhotoImage(file = "pokeball.ico")
+    registration_window.iconphoto(False, icon)
     registration_window.geometry("400x350")
     registration_window.configure(bg="#790909")
 
@@ -146,15 +148,18 @@ def open_user_dashboard():
     dashboard = tk.Tk()
     dashboard.title("User Dashboard")
     dashboard.resizable(0,0)
+    icon = ImageTk.PhotoImage(file = "pokeball.ico")
+    dashboard.iconphoto(False, icon)
     dashboard.geometry("450x350")
-    dashboard.configure(bg="#790909")
+    
 
     set_style()  # Apply the style
 
     # Create different menus
-    home_frame = ttk.Frame(dashboard)
-    party_frame = ttk.Frame(dashboard)
-    search_frame = ttk.Frame(dashboard)
+    home_frame = tk.Frame(dashboard)
+    home_frame['bg']='#790909'
+    party_frame = tk.Frame(dashboard)
+    search_frame = tk.Frame(dashboard)
 
     for frame in (home_frame, party_frame, search_frame):
         frame.grid(row=0, column=0, sticky='nsew')
@@ -164,15 +169,19 @@ def open_user_dashboard():
     user_data = fetch_user_data()
 
     if user_data:
+        img = ImageTk.PhotoImage(Image.open('ash.png'))
+        panel = tk.Label(home_frame, image = img)
+        panel.place(x=20, y=20)
+
         username_label = ttk.Label(home_frame, text=f"WELCOME, {user_data[0]}!")
-        username_label.place(x=140,y=20)
+        username_label.place(x=220,y=20)
 
         account_age = get_account_age(user_data[1])
         age_label = ttk.Label(home_frame, text=f"Account Age: {account_age} days")
-        age_label.place(x=70, y=200)
+        age_label.place(x=10, y=180)
 
-        delete_button = ttk.Button(home_frame, text="DELETE ACCOUNT", command=delete_account)
-        delete_button.pack(pady=5)
+        delete_button = ttk.Button(home_frame, text="DELETE ACCOUNT", command=delete_account, padding=5)
+        delete_button.place(x=10, y=240)
 
     ttk.Label(party_frame, text="Welcome to the Party Menu!").pack(pady=20)
     
@@ -240,6 +249,8 @@ def main_login_window():
     root.resizable(0,0)
     root.title("Pokedex")
     root.geometry("450x350")
+    icon = ImageTk.PhotoImage(file = "pokeball.ico")
+    root.iconphoto(False, icon)
     root.configure(bg="#790909")
 
     set_style()  # Apply style to the login window
