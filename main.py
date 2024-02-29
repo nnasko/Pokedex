@@ -150,7 +150,7 @@ def display_pokemon_data():
         pil_image = Image.open(image_bytes)
         tk_image = ImageTk.PhotoImage(pil_image)
 
-        pokemon_sprite.config(image=tk_image)
+        pokemon_sprite.config(image=tk_image, background='white')
         pokemon_sprite.image = tk_image
 
 global logged_in_user
@@ -362,13 +362,9 @@ def create_switch_window(old_pokemon_id, update_callback):
     confirm_button = tk.Button(switch_window, text="CONFIRM", bg='#6A1010', fg='white', command=confirm_switch)
     confirm_button.pack(side=tk.RIGHT, padx=(10, 20))
 
-    # Pokemon image (use a placeholder or fetch dynamically)
     pokemon_image_label = tk.Label(switch_window, bg='white')
     pokemon_image_label.pack(pady=5)
-    # You would set the image for the label here using the Pokémon ID if available
-    # For now, let's use a placeholder
-    placeholder_image_path = 'path_to_placeholder_pokemon_image.png'
-    pil_image = Image.open(placeholder_image_path)
+    pil_image = Image.open()
     tk_image = ImageTk.PhotoImage(pil_image)
     pokemon_image_label.configure(image=tk_image)
     pokemon_image_label.image = tk_image  # Keep a reference
@@ -398,7 +394,7 @@ def update_user_pokemon(old_pokemon_id, new_pokemon_id):
         tk_image = ImageTk.PhotoImage(pil_image)
         # Update the image for the old Pokemon ID with the new image
         image_label = image_references[old_pokemon_id]
-        image_label.configure(image=tk_image)
+        image_label.config(image=tk_image)
         image_label.image = tk_image  # Keep a reference
         # Update the image_references dictionary with the new Pokemon ID
         image_references[new_pokemon_id] = image_references.pop(old_pokemon_id)
